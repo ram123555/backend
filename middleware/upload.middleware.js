@@ -1,35 +1,32 @@
 const multer = require("multer");
-const path = require("path");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const cloudinary = require("cloudinary").v2;
 
-// Storage configuration
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");   // uploads folder
-  },
-  filename: (req, file, cb) => {
-    cb(
-      null,
-      Date.now() + path.extname(file.originalname)
-    );
+// 🔹 Cloudinary config (uses ENV variables)
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+// 🔹 Cloudinary storage for multer
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "dbizlecar/cars",          // folder in Cloudinary
+    allowed_formats: ["jpg", "jpeg", "png"],
+    transformation: [
+      { width: 1000, height: 750, crop: "limit" }, // auto resize
+    ],
   },
 });
 
-// File filter (allow only images)
-const fileFilter = (req, file, cb) => {
-  if (
-    file.mimetype === "image/jpeg" ||
-    file.mimetype === "image/png" ||
-    file.mimetype === "image/jpg"
-  ) {
-    cb(null, true);
-  } else {
-    cb(new Error("Only images allowed"), false);
-  }
-};
-
+// 🔹 Multer upload
 const upload = multer({
   storage,
-  fileFilter,
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 5MB limit
+  },
 });
 
 module.exports = upload;

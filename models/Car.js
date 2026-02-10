@@ -6,25 +6,32 @@ const carSchema = new mongoose.Schema(
     title: {
       type: String,
       required: true,
+      trim: true,
     },
 
     brand: {
       type: String,
       required: true,
+      uppercase: true, // BMW, AUDI
+      trim: true,
     },
 
     model: {
       type: String,
+      trim: true,
     },
 
     type: {
-      type: String, // SUV, Sedan, Hatchback
+      type: String, // sedan, suv, hatchback
       required: true,
+      lowercase: true,
+      trim: true,
     },
 
     price: {
       type: Number,
       required: true,
+      min: 0,
     },
 
     year: {
@@ -47,20 +54,24 @@ const carSchema = new mongoose.Schema(
     owners: {
       type: Number,
       default: 1,
+      min: 1,
     },
 
     kilometers: {
-      type: String,
+      type: String, // "75,000 km"
+      trim: true,
     },
 
     city: {
       type: String,
       required: true,
+      trim: true,
     },
 
     location: {
       type: String,
       required: true,
+      trim: true,
     },
 
     /* ================= ENGINE & PERFORMANCE ================= */
@@ -85,27 +96,60 @@ const carSchema = new mongoose.Schema(
     rearBrake: String,
 
     /* ================= SAFETY & FEATURES ================= */
-    abs: Boolean,
-    airbags: Boolean,
-    sunroof: Boolean,
-    cruiseControl: Boolean,
-    touchscreen: Boolean,
-    androidAuto: Boolean,
-    carPlay: Boolean,
-    rearAc: Boolean,
-    powerSteering: Boolean,
-    centralLock: Boolean,
-    isofix: Boolean,
+    abs: {
+      type: Boolean,
+      default: false,
+    },
+    airbags: {
+      type: Boolean,
+      default: false,
+    },
+    sunroof: {
+      type: Boolean,
+      default: false,
+    },
+    cruiseControl: {
+      type: Boolean,
+      default: false,
+    },
+    touchscreen: {
+      type: Boolean,
+      default: false,
+    },
+    androidAuto: {
+      type: Boolean,
+      default: false,
+    },
+    carPlay: {
+      type: Boolean,
+      default: false,
+    },
+    rearAc: {
+      type: Boolean,
+      default: false,
+    },
+    powerSteering: {
+      type: Boolean,
+      default: false,
+    },
+    centralLock: {
+      type: Boolean,
+      default: false,
+    },
+    isofix: {
+      type: Boolean,
+      default: false,
+    },
 
     /* ================= MEDIA ================= */
     image: {
-      type: String,
+      type: String, // ✅ Cloudinary URL
       required: true,
     },
 
     images: [
       {
-        type: String,
+        type: String, // future multiple images (Cloudinary URLs)
       },
     ],
 
@@ -119,10 +163,12 @@ const carSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      default: null,          
+      default: null,
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
 module.exports = mongoose.model("Car", carSchema);
