@@ -4,7 +4,7 @@ const upload = require("../middleware/upload.middleware");
 
 const router = express.Router();
 
-/* ================= ADD CAR (NO AUTH) ================= */
+/* ================= ADD CAR  ================= */
 router.post(
   "/",
   upload.single("image"),
@@ -15,11 +15,11 @@ router.post(
       }
 
       const car = await Car.create({
-        ...req.body,                         // ✅ save all specs
+        ...req.body,                         
         brand: req.body.brand?.toUpperCase(),
         type: req.body.type?.toLowerCase(),
-        image: req.file.filename,            // filename only
-        user: null,                          // ✅ no auth for now
+        image: req.file.filename,            
+        user: null,                          
       });
 
       res.status(201).json(car);
@@ -84,7 +84,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-/* ================= UPDATE CAR (NO AUTH) ================= */
+/* ================= UPDATE CAR  ================= */
 router.put("/:id", async (req, res) => {
   try {
     const car = await Car.findByIdAndUpdate(
@@ -98,7 +98,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-/* ================= DELETE CAR (NO AUTH) ================= */
+/* ================= DELETE CAR  ================= */
 router.delete("/:id", async (req, res) => {
   try {
     await Car.findByIdAndDelete(req.params.id);

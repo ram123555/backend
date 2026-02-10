@@ -119,7 +119,7 @@ const carSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      default: null,          // ✅ FIXED
+      default: null,          
     },
   },
   { timestamps: true }

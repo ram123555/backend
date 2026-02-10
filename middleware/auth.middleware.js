@@ -7,7 +7,7 @@ module.exports = function (req, res, next) {
     return res.status(401).json({ msg: "No token, access denied" });
   }
 
-  // ✅ Extract token after "Bearer "
+  // Extract token after "Bearer "
   const token = authHeader.split(" ")[1];
 
   if (!token) {
