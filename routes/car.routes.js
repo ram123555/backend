@@ -21,7 +21,7 @@ router.post(
         brand: req.body.brand?.toUpperCase(),
         type: req.body.type?.toLowerCase(),
 
-        // ✅ Cloudinary image URL
+        // Cloudinary image URL
         image: req.file.path,
 
         user: null,
@@ -50,7 +50,7 @@ router.get("/", async (req, res) => {
 
     let query = {};
 
-    /* 🔍 SEARCH */
+    /*  SEARCH */
     if (search) {
       query.$or = [
         { title: { $regex: search, $options: "i" } },

@@ -143,7 +143,7 @@ const carSchema = new mongoose.Schema(
 
     /* ================= MEDIA ================= */
     image: {
-      type: String, // ✅ Cloudinary URL
+      type: String, 
       required: true,
     },
 
